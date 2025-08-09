@@ -188,6 +188,7 @@ export default function Home() {
     setCurrentTime(0)
     setDuration(0)
     setOutputUrl(null)
+    setPerformanceMetrics(null)
     setProcessing(true)
     setProgress(0)
     
