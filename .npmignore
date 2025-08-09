@@ -1,0 +1,55 @@
+# Source files (only distribute built files)
+src/
+tests/
+test-files/
+
+# Development files
+.github/
+paulstretch-nextjs/
+docs/
+*.test.js
+jest.config.js
+webpack.config.js
+babel.config.js
+.babelrc
+
+# Build tools
+Makefile
+test.sh
+create-test-project.sh
+
+# Git files
+.git/
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies (users will install their own)
+node_modules/
+
+# Images and assets
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Documentation files
+CLAUDE.md
+
+# Keep only the essential files:
+# - dist/ (built files)
+# - README.md (documentation)  
+# - LICENSE (legal)
+# - package.json (metadata)

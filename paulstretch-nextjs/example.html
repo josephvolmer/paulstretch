@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaulStretch JS Example</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .control-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #ddd;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+        input[type="range"] {
+            width: 100%;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        #progress {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 4px;
+            display: none;
+        }
+        audio {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .value-display {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="paul-stretch.png" alt="PaulStretch JS" style="width: 120px; height: auto;">
+        </div>
+        <h1 style="text-align: center;">PaulStretch JS Example</h1>
+        
+        <div class="control-group">
+            <label for="audioFile">Select Audio File:</label>
+            <input type="file" id="audioFile" accept="audio/*">
+        </div>
+        
+        <div class="control-group">
+            <label for="stretchFactor">
+                Stretch Factor: <span class="value-display" id="stretchValue">8</span>x
+            </label>
+            <input type="range" id="stretchFactor" min="2" max="50" value="8" step="1">
+        </div>
+        
+        <div class="control-group">
+            <label for="windowSize">
+                Window Size: <span class="value-display" id="windowValue">0.05</span>s
+            </label>
+            <input type="range" id="windowSize" min="0.01" max="0.5" value="0.05" step="0.01">
+        </div>
+        
+        <button id="stretchButton" disabled>Stretch Audio</button>
+        
+        <div id="progress">
+            Processing: <span id="progressValue">0</span>%
+        </div>
+        
+        <audio id="audioPlayer" controls style="display: none;"></audio>
+    </div>
+
+    <script type="module">
+        import PaulStretch from './lib/paulstretch.js';
+        
+        const fileInput = document.getElementById('audioFile');
+        const stretchButton = document.getElementById('stretchButton');
+        const stretchFactorInput = document.getElementById('stretchFactor');
+        const windowSizeInput = document.getElementById('windowSize');
+        const stretchValue = document.getElementById('stretchValue');
+        const windowValue = document.getElementById('windowValue');
+        const progressDiv = document.getElementById('progress');
+        const progressValue = document.getElementById('progressValue');
+        const audioPlayer = document.getElementById('audioPlayer');
+        
+        let paulstretch = new PaulStretch();
+        
+        // Update display values
+        stretchFactorInput.addEventListener('input', (e) => {
+            stretchValue.textContent = e.target.value;
+        });
+        
+        windowSizeInput.addEventListener('input', (e) => {
+            windowValue.textContent = e.target.value;
+        });
+        
+        // Enable button when file is selected
+        fileInput.addEventListener('change', (e) => {
+            stretchButton.disabled = !e.target.files.length;
+        });
+        
+        // Handle stretch button click
+        stretchButton.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+            
+            const stretchFactor = parseFloat(stretchFactorInput.value);
+            const windowSize = parseFloat(windowSizeInput.value);
+            
+            // Disable controls during processing
+            stretchButton.disabled = true;
+            fileInput.disabled = true;
+            progressDiv.style.display = 'block';
+            audioPlayer.style.display = 'none';
+            
+            // Set up progress callback
+            paulstretch.onProgress = (progress) => {
+                progressValue.textContent = Math.round(progress * 100);
+            };
+            
+            try {
+                // Perform the stretch
+                const stretchedBlob = await paulstretch.stretch(file, stretchFactor, windowSize);
+                
+                // Create URL and set up audio player
+                const url = URL.createObjectURL(stretchedBlob);
+                audioPlayer.src = url;
+                audioPlayer.style.display = 'block';
+                
+                // Add download link
+                const downloadLink = document.createElement('a');
+                downloadLink.href = url;
+                downloadLink.download = `stretched_${file.name.replace(/\.[^/.]+$/, '')}.wav`;
+                downloadLink.textContent = 'Download Stretched Audio';
+                downloadLink.style.display = 'block';
+                downloadLink.style.marginTop = '20px';
+                downloadLink.style.color = '#4CAF50';
+                
+                // Remove old download link if exists
+                const oldLink = document.querySelector('a[download]');
+                if (oldLink) oldLink.remove();
+                
+                audioPlayer.parentElement.appendChild(downloadLink);
+                
+            } catch (error) {
+                console.error('Error stretching audio:', error);
+                alert('Error: ' + error.message);
+            } finally {
+                // Re-enable controls
+                stretchButton.disabled = false;
+                fileInput.disabled = false;
+                progressDiv.style.display = 'none';
+                progressValue.textContent = '0';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 213 31% 91%;
+    --card: 222 47% 13%;
+    --card-foreground: 213 31% 91%;
+    --popover: 222 47% 13%;
+    --popover-foreground: 213 31% 91%;
+    --primary: 210 40% 96.1%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 96.1%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 20%;
+    --accent-foreground: 210 40% 96.1%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 96.1%;
+    --border: 217 33% 17%;
+    --input: 217 33% 20%;
+    --ring: 212 26% 83%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  @keyframes bounce-gentle {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  
+  @keyframes bounce-slow {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+
+  @keyframes wiggle {
+    0%, 100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(1deg);
+    }
+    75% {
+      transform: rotate(-1deg);
+    }
+  }
+
+  @keyframes wave-left {
+    0%, 100% {
+      transform: rotate(-30deg);
+    }
+    50% {
+      transform: rotate(-25deg);
+    }
+  }
+
+  @keyframes wave-right {
+    0%, 100% {
+      transform: rotate(30deg);
+    }
+    50% {
+      transform: rotate(25deg);
+    }
+  }
+
+  @keyframes float-1 {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+      opacity: 0.8;
+    }
+    50% {
+      transform: translateY(-2px) translateX(1px);
+      opacity: 1;
+    }
+  }
+
+  @keyframes float-2 {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translateY(-1px) translateX(-1px);
+      opacity: 0.9;
+    }
+  }
+
+  @keyframes float-3 {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+      opacity: 0.8;
+    }
+    50% {
+      transform: translateY(-2px) translateX(1px);
+      opacity: 1;
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 4s ease-in-out infinite;
+  }
+
+  .animate-wiggle {
+    animation: wiggle 3s ease-in-out infinite;
+  }
+
+  .animate-wave-left {
+    animation: wave-left 2s ease-in-out infinite;
+  }
+
+  .animate-wave-right {
+    animation: wave-right 2s ease-in-out infinite 0.5s;
+  }
+
+  .animate-float-1 {
+    animation: float-1 3s ease-in-out infinite;
+  }
+
+  .animate-float-2 {
+    animation: float-2 3.5s ease-in-out infinite 0.5s;
+  }
+
+  .animate-float-3 {
+    animation: float-3 4s ease-in-out infinite 1s;
+  }
+}

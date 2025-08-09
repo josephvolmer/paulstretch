@@ -1,0 +1,47 @@
+{
+  "name": "paulstretch",
+  "version": "1.0.6",
+  "description": "Extreme time-stretching for audio files in the browser using Web Audio API",
+  "main": "dist/paulstretch.js",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/josephvolmer/paulstretch"
+  },
+  "bugs": {
+    "url": "https://github.com/josephvolmer/paulstretch/issues"
+  },
+  "homepage": "https://josephvolmer.github.io/paulstretch/",
+  "scripts": {
+    "build": "webpack --mode production",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "serve-test": "cd test-project && npx serve"
+  },
+  "keywords": [
+    "audio",
+    "stretch",
+    "paulstretch",
+    "paul-stretch",
+    "time-stretch",
+    "web-audio",
+    "audio-processing",
+    "sound-stretching",
+    "extreme-stretch"
+  ],
+  "author": "beowulf",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.x",
+    "@babel/preset-env": "^7.x",
+    "babel-jest": "^29.x",
+    "babel-loader": "^9.x",
+    "jest": "^29.x",
+    "jest-environment-jsdom": "^29.x",
+    "webpack": "^5.x",
+    "webpack-cli": "^5.x"
+  }
+}
